@@ -5,6 +5,7 @@ namespace Modules\Shop\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Arr;
 
 use Modules\Shop\Repositories\Front\Interfaces\ProductRepositoryInterface;
 use Modules\Shop\Repositories\Front\Interfaces\CategoryRepositoryInterface;
@@ -107,6 +108,17 @@ class ProductController extends Controller
         $this->data['tag'] = $tag;
 
         return $this->loadTheme('products.tag', $this->data);
+    }
+
+    public function show($categorySlug, $productSlug)
+    {
+        $sku = Arr::last(explode('-', $productSlug));
+        
+        $product = $this->productRepository->findBySKU($sku);
+
+        $this->data['product'] = $product;
+
+        return $this->loadTheme('products.show', $this->data);
     }
 
     function getPriceRangeFilter($request)

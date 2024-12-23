@@ -55,6 +55,11 @@ class ProductRepository implements ProductRepositoryInterface
 
         return $products->get();
     }
+
+    public function findBySKU($sku)
+    {
+        return Product::where('sku', $sku)->firstOrFail();
+    }
 }
 
 ?>
